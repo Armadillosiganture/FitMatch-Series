@@ -1,0 +1,147 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Armadillo FitMatch Series</title>
+    <link rel="stylesheet" href="style edo.css">
+</head>
+<body>
+
+    <section class="hero-section">
+        <h1>Temukan Kasur yang Cocok dengan Tubuhmu</h1>
+        <p>Dengan teknologi FitMatch dari Armadillo, kamu nggak perlu menebak lagi kasur mana yang pas.</p>
+        <a href="#fitmatch-form" class="button-primary">Isi Form Sekarang</a>
+    </section>
+
+    <section class="benefits-section">
+        <h2>Kenapa Pilih Armadillo FitMatch?</h2>
+        <div class="benefits-grid">
+            <div class="benefit-card">
+                <h3>Personalized untuk Anda</h3>
+                <p>Rekomendasi kasur berdasarkan berat badan, postur, dan posisi tidur Anda.</p>
+            </div>
+            <div class="benefit-card">
+                <h3>Dual Zone untuk Pasangan</h3>
+                <p>Satu kasur, dua kenyamanan. Ideal bagi pasangan dengan preferensi berbeda.</p>
+            </div>
+            <div class="benefit-card">
+                <h3>Garansi Tukar 365 Hari</h3>
+                <p>Kalau kurang cocok, lapisan atas kasur bisa ditukar dalam setahun pertama.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="fitmatch-form" class="form-section">
+        <div class="form-container">
+            <h2>Formulir FitMatch</h2>
+            <form id="fitmatchForm">
+                <div>
+                    <label for="sleeperCount">Siapa yang akan tidur di atas kasur ini?</label>
+                    <select id="sleeperCount" name="sleeperCount">
+                        <option value="Sendiri">Sendiri</option>
+                        <option value="Berdua (dengan pasangan)">Berdua (dengan pasangan)</option>
+                    </select>
+                </div>
+
+                <div class="form-grid">
+                    <div>
+                        <label for="weight">Berat badan Anda:</label>
+                        <select id="weight" name="weight">
+                            <option value="< 60 kg">&lt; 60 kg</option>
+                            <option value="60–80 kg">60–80 kg</option>
+                            <option value="80–100 kg">80–100 kg</option>
+                            <option value="> 100 kg">&gt; 100 kg</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="height">Tinggi badan (cm):</label>
+                        <input type="number" id="height" name="height" placeholder="Contoh: 175">
+                    </div>
+                </div>
+
+                <div>
+                    <label for="sleepPosition">Posisi tidur dominan:</label>
+                    <select id="sleepPosition" name="sleepPosition">
+                        <option value="Telentang">Telentang</option>
+                        <option value="Miring">Miring</option>
+                        <option value="Tengkurap">Tengkurap</option>
+                        <option value="Campur">Campur</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label>Keluhan saat bangun tidur:</label>
+                    <div class="checkbox-group">
+                        <label><input type="checkbox" name="morningComplaints" value="Punggung pegal"> Punggung pegal</label>
+                        <label><input type="checkbox" name="morningComplaints" value="Leher kaku"> Leher kaku</label>
+                        <label><input type="checkbox" name="morningComplaints" value="Mudah terbangun"> Mudah terbangun</label>
+                        <label><input type="checkbox" name="morningComplaints" value="Panas dan berkeringat"> Panas dan berkeringat</label>
+                        <label><input type="checkbox" name="morningComplaints" value="Tidak ada keluhan"> Tidak ada keluhan</label>
+                    </div>
+                </div>
+
+                <div>
+                    <label for="comfortPreference">Preferensi kenyamanan kasur:</label>
+                    <select id="comfortPreference" name="comfortPreference">
+                        <option value="Sangat empuk">Sangat empuk</option>
+                        <option value="Medium">Medium</option>
+                        <option value="Agak keras">Agak keras</option>
+                        <option value="Tidak yakin">Tidak yakin</option>
+                    </select>
+                </div>
+
+                <div class="form-submit-center">
+                    <button type="submit" class="button-primary">Kirim & Dapatkan Rekomendasi</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <footer class="footer-cta">
+        <p>Masih bingung? Chat admin kami sekarang untuk konsultasi gratis 👉 <a href="https://wa.me/6281336069667">Klik di sini</a></p>
+    </footer>
+
+    <script>
+        document.getElementById("fitmatchForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+
+            const sleeperCount = document.getElementById("sleeperCount").value;
+            const weight = document.getElementById("weight").value;
+            const height = document.getElementById("height").value;
+            const sleepPosition = document.getElementById("sleepPosition").value;
+            const comfortPreference = document.getElementById("comfortPreference").value;
+            const complaints = Array.from(document.querySelectorAll('input[name="morningComplaints"]:checked')).map(el => el.value).join(', ');
+
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbyd3XdX9gkj7ilerVX4FerrLy7hGHru9o9AMuai-w3ve05VJROdvtmSeJAXuFVQcqK9/exec';
+
+            const formData = new FormData();
+            formData.append('sleeperCount', sleeperCount);
+            formData.append('weight', weight);
+            formData.append('height', height);
+            formData.append('sleepPosition', sleepPosition);
+            formData.append('morningComplaints', complaints);
+            formData.append('comfortPreference', comfortPreference);
+
+            fetch(scriptURL, { method: 'POST', body: formData })
+                .then(response => {
+                    const message = `Halo admin, saya sudah isi FitMatch:
+
+` +
+                        `🛏️ Tidur: ${sleeperCount}
+⚖️ Berat: ${weight}
+📏 Tinggi: ${height} cm
+🛌 Posisi Tidur: ${sleepPosition}
+😖 Keluhan: ${complaints}
+🛏️ Preferensi Kasur: ${comfortPreference}`;
+
+                    const whatsappNumber = '6281336069667';
+                    const whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+                    window.location.href = whatsappURL;
+                })
+                .catch(error => alert('Gagal kirim, coba lagi.'));
+        });
+    </script>
+</body>
+</html>
